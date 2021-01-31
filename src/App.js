@@ -1,13 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Input } from './components/Input';
 
-import { PostsDataFetcher } from './components/PostList';
+const showValueMapStateToProps = state => ({
+    value: state.value,
+});
 
-function App() {
+const ShowValue = connect(showValueMapStateToProps)(({ value }) => <div>INPUT VALUE: {value}</div>);
+
+export default function App() {
     return (
         <div>
-            <PostsDataFetcher />
+            <Input placeholder="Enter value" />
+            <ShowValue />
         </div>
     );
 }
-
-export default App;
