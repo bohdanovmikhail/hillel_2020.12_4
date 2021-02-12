@@ -1,18 +1,19 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger';
+import reduxThunk from 'redux-thunk';
 
-function reducer(state, action) {
-    switch (action.type) {
-        case 'INPUT_CHANGE':
-            return {
-                ...state,
-                value: action.payload,
-            };
-    
-        default:
-            return state;
-    }
-}
+import { formDataReducer } from './formData';
+import { contactListReducer } from './contactList';
 
-export const store = createStore(reducer, {
-    value: '',
+const reducer = combineReducers({
+    form: formDataReducer,
+    contactList: contactListReducer,
 });
+
+const loggerMW = createLogger({
+    collapsed: true,
+});
+
+const middleware = applyMiddleware(reduxThunk, loggerMW);
+
+export const store = createStore(reducer, middleware);
